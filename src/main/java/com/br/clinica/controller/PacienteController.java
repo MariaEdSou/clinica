@@ -1,7 +1,7 @@
 package com.br.clinica.controller;
 
-import com.br.clinica.paciente.PacienteResponseDTO;
-import com.br.clinica.paciente.DadosCadastroPacienteDTO;
+import com.br.clinica.pacienteDTO.PacienteResponseDTO;
+import com.br.clinica.pacienteDTO.DadosCadastroPacienteDTO;
 import com.br.clinica.paciente.Paciente;
 import com.br.clinica.repository.PacienteRepository;
 import jakarta.validation.Valid;
@@ -26,8 +26,6 @@ public class PacienteController {
 
     @Autowired
     private PacienteRepository repository;
-
-
     private final static Logger log = LoggerFactory.getLogger(PacienteController.class);
 
     //    @ResponseStatus(HttpStatus.CREATED)faz retornar status 201 - algo foi criado
@@ -40,7 +38,7 @@ public class PacienteController {
 
 
     @GetMapping
-    public ResponseEntity<List<PacienteResponseDTO>> listar(@PageableDefault( sort = {"nome"}) Pageable paginacao) {
+    public ResponseEntity<List<PacienteResponseDTO>> listar(@PageableDefault(sort = {"nome"}) Pageable paginacao) {
         List<PacienteResponseDTO> pacienteResponseDTOS = repository.findAll(paginacao)
                 .map(PacienteResponseDTO::new)
                 .stream()

@@ -1,4 +1,6 @@
-package com.br.clinica.paciente;
+package com.br.clinica.pacienteDTO;
+
+import com.br.clinica.paciente.Paciente;
 
 public record PacienteResponseDTO(String cpf, String nome, String telefone, String email) {
 
