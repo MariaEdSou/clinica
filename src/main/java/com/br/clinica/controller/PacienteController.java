@@ -1,14 +1,13 @@
 package com.br.clinica.controller;
 
-import com.br.clinica.consulta.Consulta;
-import com.br.clinica.paciente.DadosAtualizacaoPacienteDTO;
+import com.br.clinica.paciente.PacienteResponseDTO;
 import com.br.clinica.paciente.DadosCadastroPacienteDTO;
-import com.br.clinica.paciente.DadosListagemPacienteDTO;
 import com.br.clinica.paciente.Paciente;
 import com.br.clinica.repository.PacienteRepository;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
@@ -28,6 +27,9 @@ public class PacienteController {
     @Autowired
     private PacienteRepository repository;
 
+
+    private final static Logger log = LoggerFactory.getLogger(PacienteController.class);
+
     //    @ResponseStatus(HttpStatus.CREATED)faz retornar status 201 - algo foi criado
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -38,14 +40,22 @@ public class PacienteController {
 
 
     @GetMapping
-    public ResponseEntity<List<DadosAtualizacaoPacienteDTO>> listar(@PageableDefault( sort = {"nome"}) Pageable paginacao) {
-        List<DadosAtualizacaoPacienteDTO> dadosAtualizacaoPacienteDTOS = repository.findAll(paginacao)
-                .map(DadosAtualizacaoPacienteDTO::new)
+    public ResponseEntity<List<PacienteResponseDTO>> listar(@PageableDefault( sort = {"nome"}) Pageable paginacao) {
+        List<PacienteResponseDTO> pacienteResponseDTOS = repository.findAll(paginacao)
+                .map(PacienteResponseDTO::new)
                 .stream()
                 .toList();
 
-        return ResponseEntity.of(Optional.of(dadosAtualizacaoPacienteDTOS)
+        return ResponseEntity.of(Optional.of(pacienteResponseDTOS)
                 .filter(not(List::isEmpty)));
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void excluirPorCpf(@PathVariable String id) {
+        repository.deleteByCpf(id);
+        log.info("paciente deletado");
     }
 
 }
