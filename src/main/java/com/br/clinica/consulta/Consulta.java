@@ -1,5 +1,6 @@
 package com.br.clinica.consulta;
 
+import com.br.clinica.paciente.DadosCadastroPacienteDTO;
 import com.br.clinica.paciente.Paciente;
 import jakarta.persistence.*;
 import lombok.*;
@@ -24,4 +25,6 @@ public class Consulta {
     @ManyToOne
     @JoinColumn(name = "paciente_id")
     private Paciente paciente;
+
+
 }

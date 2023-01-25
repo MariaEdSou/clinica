@@ -26,4 +26,12 @@ public class Paciente {
     private List<Consulta> consulta;
     @OneToOne(mappedBy = "paciente")
     private Endereco endereco;
+
+
+    public Paciente(DadosCadastroPacienteDTO dados) {
+        this.nome = dados.nome();
+        this.telefone = dados.telefone();
+        this.email = dados.email();
+        this.cpf = dados.cpf();
+    }
 }
