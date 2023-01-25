@@ -12,8 +12,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+
+import static java.util.function.Predicate.not;
 
 @RestController
 @RequestMapping("/paciente")
@@ -32,14 +38,14 @@ public class PacienteController {
 
 
     @GetMapping
-    public Page<DadosAtualizacaoPacienteDTO> listar(@PageableDefault(size = 5, sort = {"nome"}) Pageable paginacao) {
-        return repository.findAll(paginacao).map(DadosAtualizacaoPacienteDTO::new);
+    public ResponseEntity<List<DadosAtualizacaoPacienteDTO>> listar(@PageableDefault( sort = {"nome"}) Pageable paginacao) {
+        List<DadosAtualizacaoPacienteDTO> dadosAtualizacaoPacienteDTOS = repository.findAll(paginacao)
+                .map(DadosAtualizacaoPacienteDTO::new)
+                .stream()
+                .toList();
+
+        return ResponseEntity.of(Optional.of(dadosAtualizacaoPacienteDTOS)
+                .filter(not(List::isEmpty)));
     }
 
-
-//    public void atualizar(DadosAtualizacaoPacienteDTO dados){
-//        var paciente = repository.getReferenceById(dados.cpf());
-//
-//
-//    }
 }
