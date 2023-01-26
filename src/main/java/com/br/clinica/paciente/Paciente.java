@@ -35,4 +35,10 @@ public class Paciente {
         this.email = dados.email();
         this.cpf = dados.cpf();
     }
+
+    public Paciente (String cpf){
+        this.cpf = cpf;
+
+    }
+
 }

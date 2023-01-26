@@ -1,13 +1,12 @@
 package com.br.clinica.consulta;
 
-import com.br.clinica.consultaDTO.DadosCadastroParaConsultaDTO;
+import com.br.clinica.consultaDTO.DadosCadastroConsultaDTO;
 import com.br.clinica.consultaDTO.Especialidade;
 import com.br.clinica.paciente.Paciente;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Table(name = "consultas")
 @Entity
@@ -21,7 +20,7 @@ public class Consulta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDate data;
-    private LocalDateTime horario;
+    private String horario;
     private Double valor;
     @Embedded
     private Especialidade especialidade;
@@ -30,7 +29,8 @@ public class Consulta {
     private Paciente paciente;
 
 
-    public Consulta(DadosCadastroParaConsultaDTO dadosConsulta) {
+    public Consulta(DadosCadastroConsultaDTO dadosConsulta) {
+        this.paciente = new Paciente(dadosConsulta.pacienteId());
         this.data = dadosConsulta.data();
         this.horario = dadosConsulta.horario();
         this.valor = dadosConsulta.valor();
