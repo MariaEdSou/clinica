@@ -22,7 +22,7 @@ public class Consulta {
     private LocalDate data;
     private String horario;
     private Double valor;
-    @Embedded
+    @Enumerated(EnumType.STRING)
     private Especialidade especialidade;
     @ManyToOne
     @JoinColumn(name = "paciente_id")

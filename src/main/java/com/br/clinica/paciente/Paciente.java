@@ -40,5 +40,4 @@ public class Paciente {
         this.cpf = cpf;
 
     }
-
 }

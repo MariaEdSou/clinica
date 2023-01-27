@@ -35,7 +35,7 @@ public class ConsultaController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ConsultaResponseDTO>> listar(@PageableDefault(sort = {"data"})Pageable paginacao) {
+    public ResponseEntity<List<ConsultaResponseDTO>> listar(@PageableDefault(sort = {"data"}) Pageable paginacao) {
         List<ConsultaResponseDTO> consultaResponseDTOS = repository.findAll(paginacao)
                 .map(ConsultaResponseDTO::new)
                 .stream()
