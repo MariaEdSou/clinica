@@ -1,6 +1,7 @@
 package com.br.clinica.controller;
 
 import com.br.clinica.consulta.Consulta;
+import com.br.clinica.consultaDTO.ConsultaResponseDTO;
 import com.br.clinica.consultaDTO.DadosCadastroConsultaDTO;
 import com.br.clinica.repository.ConsultaRepository;
 import org.slf4j.Logger;

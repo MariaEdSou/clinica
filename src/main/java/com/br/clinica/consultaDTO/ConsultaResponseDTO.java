@@ -1,4 +1,4 @@
-package com.br.clinica.controller;
+package com.br.clinica.consultaDTO;
 
 import com.br.clinica.consulta.Consulta;
 import com.br.clinica.consultaDTO.Especialidade;
