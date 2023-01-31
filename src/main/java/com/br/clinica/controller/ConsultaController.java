@@ -30,7 +30,7 @@ public class ConsultaController {
     @PostMapping
     @Transactional
     @ResponseStatus(HttpStatus.CREATED)
-    public void cadastrarPacienteEmConsulta(@RequestBody DadosCadastroConsultaDTO dadosConsulta) {
+    public void cadastrar(@RequestBody DadosCadastroConsultaDTO dadosConsulta) {
         repository.save(new Consulta(dadosConsulta));
         log.info("consulta cadastrada");
     }
@@ -45,5 +45,14 @@ public class ConsultaController {
         return ResponseEntity.of(Optional.of(consultaResponseDTOS)
                 .filter(not(List::isEmpty)));
 
+    }
+
+    //PathVariable passar id na url
+    @DeleteMapping("/{id}")
+    @Transactional
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteById(@PathVariable Long id) {
+        repository.deleteById(id);
+        log.info("consulta deletada");
     }
 }
