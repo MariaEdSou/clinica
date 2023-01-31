@@ -45,4 +45,12 @@ public class EnderecoController {
                 .filter(not(List::isEmpty)));
     }
 
+    @DeleteMapping("/{id}")
+    @Transactional
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteById(@PathVariable Long id) {
+        repository.deleteById(id);
+        log.info("endereco deletado");
+    }
+
 }
