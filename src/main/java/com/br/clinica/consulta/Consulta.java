@@ -1,5 +1,6 @@
 package com.br.clinica.consulta;
 
+import com.br.clinica.consultaDTO.DadosAtualizacaoConsulta;
 import com.br.clinica.consultaDTO.DadosCadastroConsultaDTO;
 import com.br.clinica.consultaDTO.Especialidade;
 import com.br.clinica.paciente.Paciente;
@@ -34,6 +35,7 @@ public class Consulta {
         this.data = dadosConsulta.data();
         this.horario = dadosConsulta.horario();
         this.valor = dadosConsulta.valor();
+        this.especialidade = dadosConsulta.especialidade();
     }
 
     public void atualizar(DadosAtualizacaoConsulta dados) {

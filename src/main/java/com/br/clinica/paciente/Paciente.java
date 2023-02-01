@@ -2,6 +2,7 @@ package com.br.clinica.paciente;
 
 import com.br.clinica.consulta.Consulta;
 import com.br.clinica.endereco.Endereco;
+import com.br.clinica.pacienteDTO.DadosAtualizacaoPacienete;
 import com.br.clinica.pacienteDTO.DadosCadastroPacienteDTO;
 import jakarta.persistence.*;
 import jakarta.persistence.OneToMany;
@@ -36,8 +37,23 @@ public class Paciente {
         this.cpf = dados.cpf();
     }
 
-    public Paciente (String cpf){
+    public Paciente(String cpf) {
         this.cpf = cpf;
 
+    }
+
+    public void atualizar(DadosAtualizacaoPacienete dados) {
+        if (dados.cpf() != null) {
+            this.cpf = dados.cpf();
+        }
+        if (dados.nome() != null) {
+            this.nome = dados.nome();
+        }
+        if (dados.email() != null) {
+            this.email = dados.email();
+        }
+        if (dados.telefone() != null) {
+            this.telefone = dados.telefone();
+        }
     }
 }

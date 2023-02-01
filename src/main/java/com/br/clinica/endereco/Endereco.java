@@ -1,6 +1,7 @@
 package com.br.clinica.endereco;
 
 import com.br.clinica.consultaDTO.DadosEnderecoDTO;
+import com.br.clinica.enderecoDTO.DadosAtualizacaoEndereco;
 import com.br.clinica.paciente.Paciente;
 import jakarta.persistence.*;
 import lombok.*;

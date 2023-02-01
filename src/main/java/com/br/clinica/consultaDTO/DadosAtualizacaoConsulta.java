@@ -1,4 +1,4 @@
-package com.br.clinica.consulta;
+package com.br.clinica.consultaDTO;
 
 import com.br.clinica.consultaDTO.Especialidade;
 import jakarta.validation.constraints.NotNull;

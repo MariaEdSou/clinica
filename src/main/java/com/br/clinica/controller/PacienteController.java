@@ -1,5 +1,6 @@
 package com.br.clinica.controller;
 
+import com.br.clinica.pacienteDTO.DadosAtualizacaoPacienete;
 import com.br.clinica.pacienteDTO.PacienteResponseDTO;
 import com.br.clinica.pacienteDTO.DadosCadastroPacienteDTO;
 import com.br.clinica.paciente.Paciente;
@@ -46,6 +47,17 @@ public class PacienteController {
 
         return ResponseEntity.of(Optional.of(pacienteResponseDTOS)
                 .filter(not(List::isEmpty)));
+    }
+
+    @PutMapping
+    @Transactional
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void atualizar(@RequestBody DadosAtualizacaoPacienete dados) {
+        var paciente = repository.getReferenceById(dados.cpf());
+        paciente.atualizar(dados);
+        log.info("dado atualizado");
+
+
     }
 
     @DeleteMapping("/{id}")
