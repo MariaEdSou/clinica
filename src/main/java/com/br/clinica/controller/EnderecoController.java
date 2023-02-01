@@ -45,6 +45,15 @@ public class EnderecoController {
                 .filter(not(List::isEmpty)));
     }
 
+    @PutMapping
+    @Transactional
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void atualizar(@RequestBody DadosAtualizacaoEndereco dados) {
+        var endereco = repository.getReferenceById(dados.id());
+        endereco.atualizarInf(dados);
+        log.info("Dado atualizado");
+    }
+
     @DeleteMapping("/{id}")
     @Transactional
     @ResponseStatus(HttpStatus.NO_CONTENT)
