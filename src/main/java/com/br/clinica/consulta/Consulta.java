@@ -35,4 +35,21 @@ public class Consulta {
         this.horario = dadosConsulta.horario();
         this.valor = dadosConsulta.valor();
     }
+
+    public void atualizar(DadosAtualizacaoConsulta dados) {
+        if (dados.data() != null) {
+            this.data = dados.data();
+        }
+        if (dados.horario() != null) {
+            this.horario = dados.horario();
+        }
+        if (dados.horario() != null) {
+            this.horario = dados.horario();
+        }
+        if (dados.especialidade() != null) {
+            this.especialidade = dados.especialidade();
+        }
+
+    }
+
 }

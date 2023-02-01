@@ -1,6 +1,7 @@
 package com.br.clinica.controller;
 
 import com.br.clinica.consulta.Consulta;
+import com.br.clinica.consulta.DadosAtualizacaoConsulta;
 import com.br.clinica.consultaDTO.ConsultaResponseDTO;
 import com.br.clinica.consultaDTO.DadosCadastroConsultaDTO;
 import com.br.clinica.repository.ConsultaRepository;
@@ -44,6 +45,16 @@ public class ConsultaController {
 
         return ResponseEntity.of(Optional.of(consultaResponseDTOS)
                 .filter(not(List::isEmpty)));
+
+    }
+
+    @PutMapping
+    @Transactional
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void atualizar(@RequestBody DadosAtualizacaoConsulta dados) {
+        var consulta = repository.getReferenceById(dados.id());
+        consulta.atualizar(dados);
+        log.info("Dado atualizado");
 
     }
 

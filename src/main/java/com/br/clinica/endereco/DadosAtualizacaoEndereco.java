@@ -1,4 +1,4 @@
-package com.br.clinica.controller;
+package com.br.clinica.endereco;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

@@ -1,6 +1,7 @@
 package com.br.clinica.controller;
 
 import com.br.clinica.consultaDTO.DadosEnderecoDTO;
+import com.br.clinica.endereco.DadosAtualizacaoEndereco;
 import com.br.clinica.endereco.Endereco;
 import com.br.clinica.enderecoDTO.EnderecoResponseDTO;
 import com.br.clinica.repository.EnderecoRepository;
