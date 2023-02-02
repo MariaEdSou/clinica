@@ -43,9 +43,6 @@ public class Paciente {
     }
 
     public void atualizar(DadosAtualizacaoPacienete dados) {
-        if (dados.cpf() != null) {
-            this.cpf = dados.cpf();
-        }
         if (dados.nome() != null) {
             this.nome = dados.nome();
         }

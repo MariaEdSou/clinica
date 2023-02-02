@@ -49,14 +49,13 @@ public class PacienteController {
                 .filter(not(List::isEmpty)));
     }
 
-    @PutMapping
+    @PutMapping("/{cpf}")
     @Transactional
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void atualizar(@RequestBody DadosAtualizacaoPacienete dados) {
-        var paciente = repository.getReferenceById(dados.cpf());
+    public void atualizar(@PathVariable String cpf, @RequestBody DadosAtualizacaoPacienete dados) {
+        var paciente = repository.getReferenceById(cpf);
         paciente.atualizar(dados);
         log.info("dado atualizado");
-
 
     }
 
