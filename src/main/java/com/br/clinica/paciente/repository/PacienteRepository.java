@@ -1,4 +1,4 @@
-package com.br.clinica.repository;
+package com.br.clinica.paciente.repository;
 
 import com.br.clinica.consulta.Consulta;
 import com.br.clinica.paciente.Paciente;

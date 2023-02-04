@@ -1,4 +1,4 @@
-package com.br.clinica.pacienteDTO;
+package com.br.clinica.paciente.dto;
 
 import com.br.clinica.paciente.Paciente;
 

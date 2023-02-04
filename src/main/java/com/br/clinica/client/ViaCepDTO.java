@@ -6,6 +6,6 @@ public record ViaCepDTO(
         String complemento,
         String bairro,
         String localidade,
-        String estado
+        String uf
 ) {
 }

@@ -1,11 +1,12 @@
-package com.br.clinica.controller;
+package com.br.clinica.paciente.controller;
 
-import com.br.clinica.client.ViaCepClient;
-import com.br.clinica.pacienteDTO.DadosAtualizacaoPacienete;
-import com.br.clinica.pacienteDTO.PacienteResponseDTO;
-import com.br.clinica.pacienteDTO.DadosCadastroPacienteDTO;
-import com.br.clinica.paciente.Paciente;
-import com.br.clinica.repository.PacienteRepository;
+
+import com.br.clinica.paciente.dto.DadosAtualizacaoPacienete;
+import com.br.clinica.paciente.dto.DadosCadastroPacienteDTO;
+import com.br.clinica.paciente.dto.PacienteResponseDTO;
+import com.br.clinica.paciente.repository.PacienteRepository;
+import com.br.clinica.endereco.service.EnderecoService;
+import com.br.clinica.paciente.service.PacienteService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-import static java.util.function.Predicate.not;
 
 @RestController
 @RequestMapping("/paciente")
@@ -30,7 +30,10 @@ public class PacienteController {
     private PacienteRepository repository;
 
     @Autowired
-    private ViaCepClient viaCepClient;
+    private EnderecoService enderecoService;
+
+    @Autowired
+    private PacienteService pacienteService;
     private final static Logger log = LoggerFactory.getLogger(PacienteController.class);
 
     //    @ResponseStatus(HttpStatus.CREATED)faz retornar status 201 - algo foi criado
@@ -38,37 +41,28 @@ public class PacienteController {
     @ResponseStatus(HttpStatus.CREATED)
     @Transactional
     public void cadastrar(@RequestBody @Valid DadosCadastroPacienteDTO dados) {
-        repository.save(new Paciente(dados));
+        enderecoService.cadastrar(dados.endereco());
     }
 
 
     @GetMapping
     public ResponseEntity<List<PacienteResponseDTO>> listar(@PageableDefault(sort = {"nome"}) Pageable paginacao) {
-        List<PacienteResponseDTO> pacienteResponseDTOS = repository.findAll(paginacao)
-                .map(PacienteResponseDTO::new)
-                .stream()
-                .toList();
-
-        return ResponseEntity.of(Optional.of(pacienteResponseDTOS)
-                .filter(not(List::isEmpty)));
+        Optional<List<PacienteResponseDTO>> pacienteResponseDTOS = pacienteService.listar(paginacao);
+        return ResponseEntity.of(pacienteResponseDTOS);
     }
 
     @PutMapping("/{cpf}")
     @Transactional
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void atualizar(@PathVariable String cpf, @RequestBody DadosAtualizacaoPacienete dados) {
-        var paciente = repository.getReferenceById(cpf);
-        paciente.atualizar(dados);
-        log.info("dado atualizado");
-
+       pacienteService.atualizar(cpf,dados);
     }
 
     @DeleteMapping("/{id}")
     @Transactional
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void excluirPorCpf(@PathVariable String id) {
-        repository.deleteByCpf(id);
-        log.info("paciente deletado");
+       pacienteService.excluirPorCpf(id);
     }
 
 }

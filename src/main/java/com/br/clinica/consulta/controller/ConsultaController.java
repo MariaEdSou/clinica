@@ -1,10 +1,10 @@
-package com.br.clinica.controller;
+package com.br.clinica.consulta.controller;
 
-import com.br.clinica.consulta.Consulta;
-import com.br.clinica.consultaDTO.DadosAtualizacaoConsulta;
-import com.br.clinica.consultaDTO.ConsultaResponseDTO;
-import com.br.clinica.consultaDTO.DadosCadastroConsultaDTO;
-import com.br.clinica.repository.ConsultaRepository;
+import com.br.clinica.consulta.dto.DadosAtualizacaoConsulta;
+import com.br.clinica.consulta.dto.ConsultaResponseDTO;
+import com.br.clinica.consulta.dto.DadosCadastroConsultaDTO;
+import com.br.clinica.consulta.repository.ConsultaRepository;
+import com.br.clinica.consulta.service.ConsultaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,44 +18,34 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-import static java.util.function.Predicate.not;
-
 @RestController
 @RequestMapping("/consulta")
 public class ConsultaController {
 
     @Autowired
     private ConsultaRepository repository;
+    private ConsultaService service;
     private final Logger log = LoggerFactory.getLogger(ConsultaController.class);
 
     @PostMapping
     @Transactional
     @ResponseStatus(HttpStatus.CREATED)
     public void cadastrar(@RequestBody DadosCadastroConsultaDTO dadosConsulta) {
-        repository.save(new Consulta(dadosConsulta));
-        log.info("consulta cadastrada");
+        service.cadastrar(dadosConsulta);
     }
 
     @GetMapping
     public ResponseEntity<List<ConsultaResponseDTO>> listar(@PageableDefault(sort = {"data"}) Pageable paginacao) {
-        List<ConsultaResponseDTO> consultaResponseDTOS = repository.findAll(paginacao)
-                .map(ConsultaResponseDTO::new)
-                .stream()
-                .toList();
+        Optional<List<ConsultaResponseDTO>> consultaResponseDTOS = service.listar(paginacao);
 
-        return ResponseEntity.of(Optional.of(consultaResponseDTOS)
-                .filter(not(List::isEmpty)));
-
+        return ResponseEntity.of(consultaResponseDTOS);
     }
 
     @PutMapping
     @Transactional
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void atualizar(@RequestBody DadosAtualizacaoConsulta dados) {
-        var consulta = repository.getReferenceById(dados.id());
-        consulta.atualizar(dados);
-        log.info("Dado atualizado");
-
+        service.atualizar(dados);
     }
 
     //PathVariable passar id na url
@@ -63,7 +53,6 @@ public class ConsultaController {
     @Transactional
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteById(@PathVariable Long id) {
-        repository.deleteById(id);
-        log.info("consulta deletada");
+        service.deleteById(id);
     }
 }

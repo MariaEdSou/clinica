@@ -1,4 +1,4 @@
-package com.br.clinica.consultaDTO;
+package com.br.clinica.consulta.dto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
@@ -18,5 +18,5 @@ public record DadosCadastroConsultaDTO(
         Double valor,
         @NotNull
         @Valid
-        Especialidade especialidade) {
+        EspecialidadeConsulta especialidade) {
 }

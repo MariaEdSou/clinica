@@ -1,12 +1,10 @@
-package com.br.clinica.controller;
+package com.br.clinica.endereco.controller;
 
 import com.br.clinica.client.ViaCepClient;
-import com.br.clinica.client.ViaCepDTO;
-import com.br.clinica.consultaDTO.DadosEnderecoDTO;
-import com.br.clinica.enderecoDTO.DadosAtualizacaoEndereco;
 import com.br.clinica.endereco.Endereco;
-import com.br.clinica.enderecoDTO.EnderecoResponseDTO;
-import com.br.clinica.repository.EnderecoRepository;
+import com.br.clinica.endereco.dto.DadosEnderecoDTO;
+import com.br.clinica.endereco.dto.DadosAtualizacaoEndereco;
+import com.br.clinica.endereco.service.EnderecoService;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,15 +18,16 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-import static java.util.function.Predicate.not;
-
 @RestController
 @RequestMapping("/endereco")
 public class EnderecoController {
 
     @Autowired
-    private EnderecoRepository repository;
+    private Endereco.EnderecoRepository repository;
     private final Logger log = LoggerFactory.getLogger(EnderecoController.class);
+
+    @Autowired
+    private EnderecoService enderecoService;
 
     @Autowired
     private ViaCepClient viaCepClient;
@@ -37,36 +36,27 @@ public class EnderecoController {
     @Transactional
     @ResponseStatus(HttpStatus.CREATED)
     public void cadastrar(@RequestBody DadosEnderecoDTO dadosEndereco) {
-        ViaCepDTO endereco = viaCepClient.getEndereco(String.valueOf(dadosEndereco.cep())).getBody();
-        repository.save(new Endereco(dadosEndereco));
-        log.info("endereco cadastrado");
+        enderecoService.cadastrar(dadosEndereco);
     }
 
     @GetMapping
-    public ResponseEntity<List<EnderecoResponseDTO>> listar(@PageableDefault(sort = {"cidade"}) Pageable paginacao) {
-        List<EnderecoResponseDTO> enderecoResponseDTOS = repository.findAll(paginacao)
-                .map(EnderecoResponseDTO::new)
-                .stream()
-                .toList();
-        return ResponseEntity.of(Optional.of(enderecoResponseDTOS)
-                .filter(not(List::isEmpty)));
+    public ResponseEntity<List<Endereco.EnderecoResponseDTO>> listar(@PageableDefault(sort = {"cidade"}) Pageable paginacao) {
+        Optional<List<Endereco.EnderecoResponseDTO>> enderecoResponseDTOS = enderecoService.listar(paginacao);
+        return ResponseEntity.of(enderecoResponseDTOS);
     }
 
     @PutMapping
     @Transactional
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void atualizar(@RequestBody DadosAtualizacaoEndereco dados) {
-        var endereco = repository.getReferenceById(dados.id());
-        endereco.atualizarInf(dados);
-        log.info("Dado atualizado");
+        enderecoService.atualizar(dados);
     }
 
     @DeleteMapping("/{id}")
     @Transactional
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteById(@PathVariable Long id) {
-        repository.deleteById(id);
-        log.info("endereco deletado");
+        enderecoService.deleteById(id);
     }
 
 }

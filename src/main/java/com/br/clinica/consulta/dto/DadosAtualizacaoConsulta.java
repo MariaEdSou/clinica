@@ -1,6 +1,5 @@
-package com.br.clinica.consultaDTO;
+package com.br.clinica.consulta.dto;
 
-import com.br.clinica.consultaDTO.Especialidade;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
@@ -12,6 +11,6 @@ public record DadosAtualizacaoConsulta(
         LocalDate data,
         String horario,
         String valor,
-        Especialidade especialidade
+        EspecialidadeConsulta especialidade
 ) {
 }

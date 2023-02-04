@@ -1,8 +1,8 @@
 package com.br.clinica.consulta;
 
-import com.br.clinica.consultaDTO.DadosAtualizacaoConsulta;
-import com.br.clinica.consultaDTO.DadosCadastroConsultaDTO;
-import com.br.clinica.consultaDTO.Especialidade;
+import com.br.clinica.consulta.dto.DadosAtualizacaoConsulta;
+import com.br.clinica.consulta.dto.DadosCadastroConsultaDTO;
+import com.br.clinica.consulta.dto.EspecialidadeConsulta;
 import com.br.clinica.paciente.Paciente;
 import jakarta.persistence.*;
 import lombok.*;
@@ -24,7 +24,7 @@ public class Consulta {
     private String horario;
     private Double valor;
     @Enumerated(EnumType.STRING)
-    private Especialidade especialidade;
+    private EspecialidadeConsulta especialidade;
     @ManyToOne
     @JoinColumn(name = "paciente_id")
     private Paciente paciente;

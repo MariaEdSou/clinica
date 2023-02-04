@@ -1,7 +1,6 @@
-package com.br.clinica.pacienteDTO;
+package com.br.clinica.paciente.dto;
 
-import com.br.clinica.client.ViaCepDTO;
-import com.br.clinica.enderecoDTO.EnderecoResponseDTO;
+import com.br.clinica.endereco.dto.DadosEnderecoDTO;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
@@ -16,8 +15,6 @@ public record DadosCadastroPacienteDTO(
         @NotBlank
         @Email
         String email,
-
-        ViaCepDTO viaCepDTO
-//        EnderecoResponseDTO endereco
+        DadosEnderecoDTO endereco
 ) {
 }

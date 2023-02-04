@@ -1,18 +1,16 @@
-package com.br.clinica.consultaDTO;
+package com.br.clinica.consulta.dto;
 
 import com.br.clinica.consulta.Consulta;
-import com.br.clinica.consultaDTO.Especialidade;
-import com.br.clinica.pacienteDTO.PacienteResponseDTO;
+import com.br.clinica.paciente.dto.PacienteResponseDTO;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public record ConsultaResponseDTO(
         Long id,
         LocalDate data,
         String horario,
         Double valor,
-        Especialidade especialidade,
+        EspecialidadeConsulta especialidade,
         PacienteResponseDTO paciente) {
 
     public ConsultaResponseDTO(Consulta consulta) {

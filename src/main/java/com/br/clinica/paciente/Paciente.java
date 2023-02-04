@@ -1,10 +1,9 @@
 package com.br.clinica.paciente;
 
-import com.br.clinica.client.ViaCepDTO;
 import com.br.clinica.consulta.Consulta;
 import com.br.clinica.endereco.Endereco;
-import com.br.clinica.pacienteDTO.DadosAtualizacaoPacienete;
-import com.br.clinica.pacienteDTO.DadosCadastroPacienteDTO;
+import com.br.clinica.paciente.dto.DadosAtualizacaoPacienete;
+import com.br.clinica.paciente.dto.DadosCadastroPacienteDTO;
 import jakarta.persistence.*;
 import jakarta.persistence.OneToMany;
 import lombok.*;
