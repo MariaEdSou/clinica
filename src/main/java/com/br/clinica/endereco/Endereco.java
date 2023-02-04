@@ -1,5 +1,6 @@
 package com.br.clinica.endereco;
 
+import com.br.clinica.client.ViaCepDTO;
 import com.br.clinica.consultaDTO.DadosEnderecoDTO;
 import com.br.clinica.enderecoDTO.DadosAtualizacaoEndereco;
 import com.br.clinica.paciente.Paciente;
@@ -30,16 +31,21 @@ public class Endereco {
     @JoinColumn(name = "paciente_id")
     private Paciente paciente;
 
-    public Endereco(DadosEnderecoDTO dadosEndereco) {
+    public Endereco(DadosEnderecoDTO dadosEndereco, ViaCepDTO viaCepDTO) {
         this.paciente = new Paciente(dadosEndereco.pacienteId());
-        this.id = dadosEndereco.id();
         this.cep = dadosEndereco.cep();
         this.cidade = dadosEndereco.cidade();
-        this.estado = dadosEndereco.estado();
-        this.bairro = dadosEndereco.bairro();
+        this.estado = viaCepDTO.estado();
+        this.bairro = viaCepDTO.bairro();
         this.rua = dadosEndereco.rua();
         this.numero = dadosEndereco.numero();
-        this.complemento = dadosEndereco.complemento();
+        this.complemento = viaCepDTO.complemento();
+
+
+    }
+
+    public Endereco(DadosEnderecoDTO dadosEndereco) {
+
     }
 
     public void atualizarInf(DadosAtualizacaoEndereco dados) {

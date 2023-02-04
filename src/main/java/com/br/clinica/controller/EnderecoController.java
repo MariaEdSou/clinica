@@ -1,5 +1,7 @@
 package com.br.clinica.controller;
 
+import com.br.clinica.client.ViaCepClient;
+import com.br.clinica.client.ViaCepDTO;
 import com.br.clinica.consultaDTO.DadosEnderecoDTO;
 import com.br.clinica.enderecoDTO.DadosAtualizacaoEndereco;
 import com.br.clinica.endereco.Endereco;
@@ -28,10 +30,14 @@ public class EnderecoController {
     private EnderecoRepository repository;
     private final Logger log = LoggerFactory.getLogger(EnderecoController.class);
 
+    @Autowired
+    private ViaCepClient viaCepClient;
+
     @PostMapping
     @Transactional
     @ResponseStatus(HttpStatus.CREATED)
     public void cadastrar(@RequestBody DadosEnderecoDTO dadosEndereco) {
+        ViaCepDTO endereco = viaCepClient.getEndereco(String.valueOf(dadosEndereco.cep())).getBody();
         repository.save(new Endereco(dadosEndereco));
         log.info("endereco cadastrado");
     }

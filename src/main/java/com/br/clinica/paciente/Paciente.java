@@ -1,5 +1,6 @@
 package com.br.clinica.paciente;
 
+import com.br.clinica.client.ViaCepDTO;
 import com.br.clinica.consulta.Consulta;
 import com.br.clinica.endereco.Endereco;
 import com.br.clinica.pacienteDTO.DadosAtualizacaoPacienete;
@@ -30,11 +31,13 @@ public class Paciente {
     private Endereco endereco;
 
 
+
     public Paciente(DadosCadastroPacienteDTO dados) {
         this.nome = dados.nome();
         this.telefone = dados.telefone();
         this.email = dados.email();
         this.cpf = dados.cpf();
+
     }
 
     public Paciente(String cpf) {

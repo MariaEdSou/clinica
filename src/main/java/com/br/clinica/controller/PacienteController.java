@@ -1,5 +1,6 @@
 package com.br.clinica.controller;
 
+import com.br.clinica.client.ViaCepClient;
 import com.br.clinica.pacienteDTO.DadosAtualizacaoPacienete;
 import com.br.clinica.pacienteDTO.PacienteResponseDTO;
 import com.br.clinica.pacienteDTO.DadosCadastroPacienteDTO;
@@ -27,6 +28,9 @@ public class PacienteController {
 
     @Autowired
     private PacienteRepository repository;
+
+    @Autowired
+    private ViaCepClient viaCepClient;
     private final static Logger log = LoggerFactory.getLogger(PacienteController.class);
 
     //    @ResponseStatus(HttpStatus.CREATED)faz retornar status 201 - algo foi criado
