@@ -94,17 +94,8 @@ public class Endereco {
 
         public EnderecoResponseDTO(Endereco endereco) {
             this(endereco.getId(), endereco.getCep(), endereco.getCidade(), endereco.getEstado(),
-                    endereco.getBairro(), endereco.getRua(), endereco.getNumero(), endereco.getComplemento(),new PacienteResponseDTO(endereco.getPaciente()));
+                    endereco.getBairro(), endereco.getRua(), endereco.getNumero(), endereco.getComplemento(), new PacienteResponseDTO(endereco.getPaciente()));
         }
 
-    }
-
-    public static interface EnderecoRepository extends JpaRepository<Endereco, Long> {
-
-        void deleteById(Long id);
-
-        @org.springframework.data.jpa.repository.EntityGraph(type = EntityGraph.EntityGraphType.FETCH, attributePaths = {"paciente"})
-        @Override
-        Page<Endereco> findAll(Pageable pageable);
     }
 }

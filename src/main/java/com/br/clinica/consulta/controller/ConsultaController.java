@@ -23,7 +23,6 @@ import java.util.Optional;
 public class ConsultaController {
 
     @Autowired
-    private ConsultaRepository repository;
     private ConsultaService service;
     private final Logger log = LoggerFactory.getLogger(ConsultaController.class);
 

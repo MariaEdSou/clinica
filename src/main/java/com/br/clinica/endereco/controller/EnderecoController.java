@@ -4,6 +4,7 @@ import com.br.clinica.client.ViaCepClient;
 import com.br.clinica.endereco.Endereco;
 import com.br.clinica.endereco.dto.DadosEnderecoDTO;
 import com.br.clinica.endereco.dto.DadosAtualizacaoEndereco;
+import com.br.clinica.endereco.repository.EnderecoRepository;
 import com.br.clinica.endereco.service.EnderecoService;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
@@ -23,7 +24,7 @@ import java.util.Optional;
 public class EnderecoController {
 
     @Autowired
-    private Endereco.EnderecoRepository repository;
+    private EnderecoRepository repository;
     private final Logger log = LoggerFactory.getLogger(EnderecoController.class);
 
     @Autowired

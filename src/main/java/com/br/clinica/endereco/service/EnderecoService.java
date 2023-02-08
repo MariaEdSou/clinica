@@ -6,6 +6,7 @@ import com.br.clinica.endereco.Endereco;
 import com.br.clinica.endereco.controller.EnderecoController;
 import com.br.clinica.endereco.dto.DadosAtualizacaoEndereco;
 import com.br.clinica.endereco.dto.DadosEnderecoDTO;
+import com.br.clinica.endereco.repository.EnderecoRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ import static java.util.function.Predicate.not;
 public class EnderecoService {
 
     @Autowired
-    private Endereco.EnderecoRepository repository;
+    private EnderecoRepository repository;
     private final Logger log = LoggerFactory.getLogger(EnderecoController.class);
 
     @Autowired
