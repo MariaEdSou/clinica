@@ -27,12 +27,6 @@ import java.util.Optional;
 public class PacienteController {
 
     @Autowired
-    private PacienteRepository repository;
-
-    @Autowired
-    private EnderecoService enderecoService;
-
-    @Autowired
     private PacienteService pacienteService;
     private final static Logger log = LoggerFactory.getLogger(PacienteController.class);
 
@@ -41,7 +35,7 @@ public class PacienteController {
     @ResponseStatus(HttpStatus.CREATED)
     @Transactional
     public void cadastrar(@RequestBody @Valid DadosCadastroPacienteDTO dados) {
-        enderecoService.cadastrar(dados.endereco());
+        pacienteService.cadastrar(dados);
     }
 
 
@@ -55,14 +49,14 @@ public class PacienteController {
     @Transactional
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void atualizar(@PathVariable String cpf, @RequestBody DadosAtualizacaoPacienete dados) {
-       pacienteService.atualizar(cpf,dados);
+        pacienteService.atualizar(cpf, dados);
     }
 
     @DeleteMapping("/{id}")
     @Transactional
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void excluirPorCpf(@PathVariable String id) {
-       pacienteService.excluirPorCpf(id);
+        pacienteService.excluirPorCpf(id);
     }
 
 }

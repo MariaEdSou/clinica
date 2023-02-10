@@ -27,20 +27,7 @@ public class WebSecurityConfig {
     }
 // auth.inMemoryAuthentication() autentication em memoria
 //definindo passwoord/username/roles
-//roles("
-//
-// ADMIN") DEFINE QUAL PERFIL VAI TER ACESSO
-    @Bean
-    public InMemoryUserDetailsManager userDetailsService() {
-        System.out.println(new BCryptPasswordEncoder().encode("051005"));
-        UserDetails user = User.builder()
-                .username("maria")
-                .password(new BCryptPasswordEncoder().encode("051005"))
-                .roles("ADMIN")
-                .build();
-        return new InMemoryUserDetailsManager(user);
-    }
-
+//roles("ADMIN") DEFINE QUAL PERFIL VAI TER ACESSO
     //PasswordEncoder vem da biblioteca do springSecutity
     @Bean
     public PasswordEncoder passwordEncoder() {
