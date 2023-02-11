@@ -14,7 +14,7 @@ import java.util.UUID;
 
 //  @Column(nullable = false, unique = true) para que a coluna nao seja null e que os valores nao se repitam.
 // @ManyToMany / @JoinTable(name = "tb_user_roles", uma terceira tabela criada pelo spring.
-// joinColumns = @JoinColumn(name = "user_id"),oq vai ter na terceira tabela criada
+// joinColumns = @JoinColumn(name = "user_id"),oq vai ter na coluna da terceira tabela criada
 //    inverseJoinColumns = @JoinColumn (name = "role_id"))
 
 @Entity
@@ -42,7 +42,7 @@ public class UserModel implements UserDetails, Serializable {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return this.roles;
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.br.clinica.user;
 
 import com.br.clinica.paciente.Paciente;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -12,11 +13,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     UserRepository userRepository;
 
+    //.orElseThrowoptional permite lancar uma exeption caso o obj nao esteja presente, vem do opitional
+//pega o userModel que vem do banco e passa cada atributo separado, username, password e no final coloca a listagem de authorities(roles)
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserModel userModel = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
-
-        return userModel;
+        return new User(userModel.getUsername(), userModel.getPassword(), true, true, true, true, userModel.getAuthorities());
     }
+
+
 }
