@@ -6,6 +6,7 @@ import com.br.clinica.endereco.Endereco;
 import com.br.clinica.endereco.controller.EnderecoController;
 import com.br.clinica.endereco.dto.DadosAtualizacaoEndereco;
 import com.br.clinica.endereco.dto.DadosEnderecoDTO;
+import com.br.clinica.endereco.dto.EnderecoResponseDTO;
 import com.br.clinica.endereco.repository.EnderecoRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,9 +42,9 @@ public class EnderecoService {
         log.info("endereco cadastrado");
     }
 
-    public Optional<List<Endereco.EnderecoResponseDTO>> listar(@PageableDefault(sort = {"cidade"}) Pageable paginacao) {
-        List<Endereco.EnderecoResponseDTO> enderecoResponseDTOS = repository.findAll(paginacao)
-                .map(Endereco.EnderecoResponseDTO::new)
+    public Optional<List<EnderecoResponseDTO>> listar(@PageableDefault(sort = {"cidade"}) Pageable paginacao) {
+        List<EnderecoResponseDTO> enderecoResponseDTOS = repository.findAll(paginacao)
+                .map(EnderecoResponseDTO::new)
                 .stream()
                 .toList();
 

@@ -27,9 +27,9 @@ public class Paciente {
     private String nome;
     private String email;
     private String telefone;
-    @OneToMany(mappedBy = "paciente" , cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "paciente" , cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Consulta> consulta;
-    @OneToOne(mappedBy = "paciente", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "paciente", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Endereco endereco;
 
 

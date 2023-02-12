@@ -4,6 +4,7 @@ import com.br.clinica.client.ViaCepClient;
 import com.br.clinica.endereco.Endereco;
 import com.br.clinica.endereco.dto.DadosEnderecoDTO;
 import com.br.clinica.endereco.dto.DadosAtualizacaoEndereco;
+import com.br.clinica.endereco.dto.EnderecoResponseDTO;
 import com.br.clinica.endereco.repository.EnderecoRepository;
 import com.br.clinica.endereco.service.EnderecoService;
 import jakarta.transaction.Transactional;
@@ -41,8 +42,8 @@ public class EnderecoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Endereco.EnderecoResponseDTO>> listar(@PageableDefault(sort = {"cidade"}) Pageable paginacao) {
-        Optional<List<Endereco.EnderecoResponseDTO>> enderecoResponseDTOS = enderecoService.listar(paginacao);
+    public ResponseEntity<List<EnderecoResponseDTO>> listar(@PageableDefault(sort = {"cidade"}) Pageable paginacao) {
+        Optional<List<EnderecoResponseDTO>> enderecoResponseDTOS = enderecoService.listar(paginacao);
         return ResponseEntity.of(enderecoResponseDTOS);
     }
 

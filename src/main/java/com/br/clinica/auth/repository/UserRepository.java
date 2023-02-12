@@ -1,5 +1,6 @@
-package com.br.clinica.user;
+package com.br.clinica.auth.repository;
 
+import com.br.clinica.auth.model.UserModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

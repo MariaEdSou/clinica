@@ -1,5 +1,6 @@
-package com.br.clinica.user;
+package com.br.clinica.auth.model;
 
+import com.br.clinica.auth.enumeration.RoleName;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,9 +8,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.io.Serializable;
-import java.util.UUID;
 
-//GrantedAuthority tipo de controle de acesso que o spring security trabalha
 @Entity
 @Table(name = "tb_role")
 @Getter
@@ -25,7 +24,6 @@ public class RoleModel implements GrantedAuthority, Serializable {
     @Column(nullable = false, unique = true)
     private RoleName roleName;
 
-    //roleName.toString();p transformar o enum em string, de acordo com o retorno do metodo
     @Override
     public String getAuthority() {
         return this.roleName.toString();

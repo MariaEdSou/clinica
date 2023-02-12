@@ -34,8 +34,8 @@ public class Endereco {
     private String rua;
     private Long numero;
     private String complemento;
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "paciente_id")
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "paciente_id", unique = true)
     private Paciente paciente;
 
     public Endereco(DadosEnderecoDTO dadosEndereco, ViaCepDTO viaCepDTO) {
@@ -73,29 +73,4 @@ public class Endereco {
         }
     }
 
-    public static record EnderecoResponseDTO(
-            @NotNull
-            Long id,
-            @NotNull
-            Long cep,
-            @NotBlank
-            String cidade,
-            @NotBlank
-            String estado,
-            @NotBlank
-            String bairro,
-            @NotBlank
-            String rua,
-            @NotNull
-            Long numero,
-            @NotBlank
-            String complemento,
-            PacienteResponseDTO paciente) {
-
-        public EnderecoResponseDTO(Endereco endereco) {
-            this(endereco.getId(), endereco.getCep(), endereco.getCidade(), endereco.getEstado(),
-                    endereco.getBairro(), endereco.getRua(), endereco.getNumero(), endereco.getComplemento(), new PacienteResponseDTO(endereco.getPaciente()));
-        }
-
-    }
 }

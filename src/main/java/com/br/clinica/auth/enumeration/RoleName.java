@@ -1,4 +1,4 @@
-package com.br.clinica.user;
+package com.br.clinica.auth.enumeration;
 
 public enum RoleName {
 
