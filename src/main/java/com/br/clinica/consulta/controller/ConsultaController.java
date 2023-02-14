@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,11 +30,13 @@ public class ConsultaController {
     @PostMapping
     @Transactional
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void cadastrar(@RequestBody DadosCadastroConsultaDTO dadosConsulta) {
         service.cadastrar(dadosConsulta);
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN' , 'ROLE_USER')")
     public ResponseEntity<List<ConsultaResponseDTO>> listar(@PageableDefault(sort = {"data"}) Pageable paginacao) {
         Optional<List<ConsultaResponseDTO>> consultaResponseDTOS = service.listar(paginacao);
 
@@ -43,6 +46,7 @@ public class ConsultaController {
     @PutMapping
     @Transactional
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void atualizar(@RequestBody DadosAtualizacaoConsulta dados) {
         service.atualizar(dados);
     }
@@ -51,6 +55,7 @@ public class ConsultaController {
     @DeleteMapping("/{id}")
     @Transactional
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteById(@PathVariable Long id) {
         service.deleteById(id);
     }

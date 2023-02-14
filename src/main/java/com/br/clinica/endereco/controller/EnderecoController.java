@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,11 +38,13 @@ public class EnderecoController {
     @PostMapping
     @Transactional
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void cadastrar(@RequestBody DadosEnderecoDTO dadosEndereco) {
         enderecoService.cadastrar(dadosEndereco);
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN' , 'ROLE_USER')")
     public ResponseEntity<List<EnderecoResponseDTO>> listar(@PageableDefault(sort = {"cidade"}) Pageable paginacao) {
         Optional<List<EnderecoResponseDTO>> enderecoResponseDTOS = enderecoService.listar(paginacao);
         return ResponseEntity.of(enderecoResponseDTOS);
@@ -50,6 +53,7 @@ public class EnderecoController {
     @PutMapping
     @Transactional
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void atualizar(@RequestBody DadosAtualizacaoEndereco dados) {
         enderecoService.atualizar(dados);
     }
@@ -57,6 +61,7 @@ public class EnderecoController {
     @DeleteMapping("/{id}")
     @Transactional
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteById(@PathVariable Long id) {
         enderecoService.deleteById(id);
     }

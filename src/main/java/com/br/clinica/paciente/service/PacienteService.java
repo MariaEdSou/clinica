@@ -2,7 +2,7 @@ package com.br.clinica.paciente.service;
 
 import com.br.clinica.paciente.Paciente;
 import com.br.clinica.paciente.controller.PacienteController;
-import com.br.clinica.paciente.dto.DadosAtualizacaoPacienete;
+import com.br.clinica.paciente.dto.DadosAtualizacaoPaciente;
 import com.br.clinica.paciente.dto.DadosCadastroPacienteDTO;
 import com.br.clinica.paciente.dto.PacienteResponseDTO;
 import com.br.clinica.paciente.repository.PacienteRepository;
@@ -49,9 +49,10 @@ public class PacienteService {
                 .filter(not(List::isEmpty));
     }
 
-    public void atualizar(@PathVariable String cpf, @RequestBody DadosAtualizacaoPacienete dados) {
+    public void atualizar(@PathVariable String cpf, @RequestBody DadosAtualizacaoPaciente dados) {
         var paciente = repository.getReferenceById(cpf);
         paciente.atualizar(dados);
+        enderecoService.atualizar(dados.dadosAtualizacaoEndereco());
         log.info("dado atualizado");
 
     }

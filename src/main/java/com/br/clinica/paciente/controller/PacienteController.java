@@ -1,11 +1,9 @@
 package com.br.clinica.paciente.controller;
 
 
-import com.br.clinica.paciente.dto.DadosAtualizacaoPacienete;
+import com.br.clinica.paciente.dto.DadosAtualizacaoPaciente;
 import com.br.clinica.paciente.dto.DadosCadastroPacienteDTO;
 import com.br.clinica.paciente.dto.PacienteResponseDTO;
-import com.br.clinica.paciente.repository.PacienteRepository;
-import com.br.clinica.endereco.service.EnderecoService;
 import com.br.clinica.paciente.service.PacienteService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -15,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,11 +33,12 @@ public class PacienteController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @Transactional
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void cadastrar(@RequestBody @Valid DadosCadastroPacienteDTO dados) {
         pacienteService.cadastrar(dados);
     }
 
-
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN' , 'ROLE_USER')")
     @GetMapping
     public ResponseEntity<List<PacienteResponseDTO>> listar(@PageableDefault(sort = {"nome"}) Pageable paginacao) {
         Optional<List<PacienteResponseDTO>> pacienteResponseDTOS = pacienteService.listar(paginacao);
@@ -48,13 +48,15 @@ public class PacienteController {
     @PutMapping("/{cpf}")
     @Transactional
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void atualizar(@PathVariable String cpf, @RequestBody DadosAtualizacaoPacienete dados) {
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public void atualizar(@PathVariable String cpf, @RequestBody DadosAtualizacaoPaciente dados) {
         pacienteService.atualizar(cpf, dados);
     }
 
     @DeleteMapping("/{id}")
     @Transactional
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void excluirPorCpf(@PathVariable String id) {
         pacienteService.excluirPorCpf(id);
     }
