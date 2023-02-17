@@ -42,7 +42,7 @@ public class EnderecoService {
         log.info("endereco cadastrado");
     }
 
-    public Optional<List<EnderecoResponseDTO>> listar(@PageableDefault(sort = {"cidade"}) Pageable paginacao) {
+    public Optional<List<EnderecoResponseDTO>> listar(Pageable paginacao) {
         List<EnderecoResponseDTO> enderecoResponseDTOS = repository.findAll(paginacao)
                 .map(EnderecoResponseDTO::new)
                 .stream()
@@ -52,14 +52,14 @@ public class EnderecoService {
                 .filter(not(List::isEmpty));
     }
 
-    public void atualizar(@RequestBody DadosAtualizacaoEndereco dados) {
+    public void atualizar(DadosAtualizacaoEndereco dados) {
         var endereco = repository.getReferenceById(dados.id());
         endereco.atualizarInf(dados);
         log.info("Dado atualizado");
     }
 
 
-    public void deleteById(@PathVariable Long id) {
+    public void deleteById(Long id) {
         repository.deleteById(id);
         log.info("endereco deletado");
     }

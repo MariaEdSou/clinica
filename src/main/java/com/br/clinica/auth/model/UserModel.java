@@ -1,6 +1,5 @@
 package com.br.clinica.auth.model;
 
-import com.br.clinica.auth.model.RoleModel;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

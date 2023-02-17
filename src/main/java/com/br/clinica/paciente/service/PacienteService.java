@@ -34,22 +34,22 @@ public class PacienteService {
     private final Logger log = LoggerFactory.getLogger(PacienteController.class);
 
 
-    public void cadastrar(@RequestBody @Valid DadosCadastroPacienteDTO dados) {
+    public void cadastrar(DadosCadastroPacienteDTO dados) {
         repository.save(new Paciente(dados));
         enderecoService.cadastrar(dados.endereco());
     }
 
-    public Optional<List<PacienteResponseDTO>> listar(@PageableDefault(sort = {"nome"}) Pageable paginacao) {
+    public Optional<List<PacienteResponseDTO>> listar(Pageable paginacao) {
         List<PacienteResponseDTO> pacienteResponseDTOS = repository.findAll(paginacao)
                 .map(PacienteResponseDTO::new)
-                .stream()
+
                 .toList();
 
         return Optional.of(pacienteResponseDTOS)
                 .filter(not(List::isEmpty));
     }
 
-    public void atualizar(@PathVariable String cpf, @RequestBody DadosAtualizacaoPaciente dados) {
+    public void atualizar(String cpf, DadosAtualizacaoPaciente dados) {
         var paciente = repository.getReferenceById(cpf);
         paciente.atualizar(dados);
         enderecoService.atualizar(dados.dadosAtualizacaoEndereco());
@@ -57,7 +57,7 @@ public class PacienteService {
 
     }
 
-    public void excluirPorCpf(@PathVariable String id) {
+    public void excluirPorCpf(String id) {
         repository.deleteByCpf(id);
         log.info("paciente deletado");
     }

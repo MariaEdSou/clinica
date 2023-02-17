@@ -1,5 +1,6 @@
 package com.br.clinica.auth.model;
 
+import com.br.clinica.auth.RoleDTO;
 import com.br.clinica.auth.enumeration.RoleName;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -15,6 +16,7 @@ import java.io.Serializable;
 @Setter
 public class RoleModel implements GrantedAuthority, Serializable {
     private static final long serialVersionUID = 1l;
+
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
@@ -23,6 +25,16 @@ public class RoleModel implements GrantedAuthority, Serializable {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, unique = true)
     private RoleName roleName;
+
+
+    public RoleModel(RoleDTO roleNameDTO) {
+        this.roleName = roleNameDTO.roleName();
+
+    }
+
+    public RoleModel() {
+
+    }
 
     @Override
     public String getAuthority() {

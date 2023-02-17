@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -30,12 +31,12 @@ public class ConsultaService {
     private final Logger log = LoggerFactory.getLogger(ConsultaService.class);
 
 
-    public void cadastrar(@RequestBody DadosCadastroConsultaDTO dadosConsulta) {
+    public void cadastrar(DadosCadastroConsultaDTO dadosConsulta) {
         repository.save(new Consulta(dadosConsulta));
         log.info("consulta cadastrada");
     }
 
-    public Optional<List<ConsultaResponseDTO>> listar(@PageableDefault(sort = {"data"}) Pageable paginacao) {
+    public Optional<List<ConsultaResponseDTO>> listar(Pageable paginacao) {
         List<ConsultaResponseDTO> consultaResponseDTOS = repository.findAll(paginacao)
                 .map(ConsultaResponseDTO::new)
                 .stream()
@@ -46,15 +47,17 @@ public class ConsultaService {
 
     }
 
-    public void atualizar(@RequestBody DadosAtualizacaoConsulta dados) {
+    public void atualizar(DadosAtualizacaoConsulta dados) {
         var consulta = repository.getReferenceById(dados.id());
         consulta.atualizar(dados);
         log.info("Dado atualizado");
 
     }
 
-    public void deleteById(@PathVariable Long id) {
-        repository.deleteById(id);
-        log.info("consulta deletada");
+    @Transactional
+    public void deleteById(Long id) {
+        repository.findById(id).ifPresent(e -> repository.delete(e));
+//        repository.deleteById(id);
+//        log.info("consulta deletada");
     }
 }
