@@ -23,7 +23,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 @EqualsAndHashCode
 
 public class Endereco {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

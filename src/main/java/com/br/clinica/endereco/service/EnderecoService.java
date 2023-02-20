@@ -12,11 +12,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,17 +32,15 @@ public class EnderecoService {
     @Autowired
     private ViaCepClient viaCepClient;
 
-    public void cadastrar(String cpf, DadosEnderecoDTO dadosEndereco) {
-
-    }
     @Transactional
-    public void cadastrar(DadosEnderecoDTO dadosEndereco) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public void save(DadosEnderecoDTO dadosEndereco) {
         ViaCepDTO viaCepDTO = viaCepClient.getEndereco(String.valueOf(dadosEndereco.cep())).getBody();
         repository.save(new Endereco(dadosEndereco, viaCepDTO));
-        log.info("endereco cadastrado");
+        log.info("registered address");
     }
 
-    public Optional<List<EnderecoResponseDTO>> listar(Pageable paginacao) {
+    public Optional<List<EnderecoResponseDTO>> list(Pageable paginacao) {
         List<EnderecoResponseDTO> enderecoResponseDTOS = repository.findAll(paginacao)
                 .map(EnderecoResponseDTO::new)
                 .stream()
@@ -52,17 +49,19 @@ public class EnderecoService {
         return Optional.of(enderecoResponseDTOS)
                 .filter(not(List::isEmpty));
     }
+
     @Transactional
-    public void atualizar(DadosAtualizacaoEndereco dados) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void update(DadosAtualizacaoEndereco dados) {
         var endereco = repository.getReferenceById(dados.id());
         endereco.atualizarInf(dados);
-        log.info("Dado atualizado");
+        log.info("update data");
     }
 
     @Transactional
     public void deleteById(Long id) {
         repository.deleteById(id);
-        log.info("endereco deletado");
+        log.info("delete address");
     }
 
 

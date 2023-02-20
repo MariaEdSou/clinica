@@ -43,7 +43,6 @@ public class UserModel implements UserDetails, Serializable {
         this.username = userDTO.username();
         this.password = (new BCryptPasswordEncoder().encode(userDTO.password()));
         this.roles = List.of(new RoleModel(userDTO.roleId()));
-
     }
 
 

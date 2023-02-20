@@ -5,7 +5,6 @@ import com.br.clinica.endereco.dto.DadosEnderecoDTO;
 import com.br.clinica.endereco.dto.EnderecoResponseDTO;
 
 public record DadosAtualizacaoPaciente(
-
         DadosAtualizacaoEndereco dadosAtualizacaoEndereco,
         String nome,
         String email,

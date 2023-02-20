@@ -10,11 +10,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,17 +26,17 @@ public class ConsultaService {
 
     @Autowired
     private ConsultaRepository repository;
-    private ViaCepClient viaCepClient;
 
     private final Logger log = LoggerFactory.getLogger(ConsultaService.class);
 
     @Transactional
-    public void cadastrar(DadosCadastroConsultaDTO dadosConsulta) {
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public void save(DadosCadastroConsultaDTO dadosConsulta) {
         repository.save(new Consulta(dadosConsulta));
-        log.info("consulta cadastrada");
+        log.info("query registered");
     }
 
-    public Optional<List<ConsultaResponseDTO>> listar(Pageable paginacao) {
+    public Optional<List<ConsultaResponseDTO>> list(Pageable paginacao) {
         List<ConsultaResponseDTO> consultaResponseDTOS = repository.findAll(paginacao)
                 .map(ConsultaResponseDTO::new)
                 .stream()
@@ -48,17 +48,18 @@ public class ConsultaService {
     }
 
     @Transactional
-    public void atualizar(DadosAtualizacaoConsulta dados) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void update(DadosAtualizacaoConsulta dados) {
         var consulta = repository.getReferenceById(dados.id());
         consulta.atualizar(dados);
-        log.info("Dado atualizado");
+        log.info("update data");
 
     }
 
     @Transactional
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteById(Long id) {
         repository.findById(id).ifPresent(e -> repository.delete(e));
-//        repository.deleteById(id);
-//        log.info("consulta deletada");
+        log.info("query deleted");
     }
 }

@@ -29,15 +29,13 @@ public class RoleModel implements GrantedAuthority, Serializable {
 
     public RoleModel(RoleDTO roleNameDTO) {
         this.roleName = roleNameDTO.roleName();
-
     }
+
     public RoleModel(String roleId) {
         this.roleId = roleId;
-
     }
 
     public RoleModel() {
-
     }
 
     @Override

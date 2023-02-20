@@ -4,9 +4,8 @@ import com.br.clinica.auth.model.UserModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
-import java.util.UUID;
 
-public interface UserRepositoryy extends JpaRepository<UserModel, String> {
+public interface UserRepository extends JpaRepository<UserModel, String> {
 
     Optional<UserModel> findByUsername(String username);
 
