@@ -1,15 +1,20 @@
 package com.br.clinica.auth.model;
 
+import com.br.clinica.auth.dto.DadosAtualizacaoUserDTO;
+import com.br.clinica.auth.dto.UserDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
+
+import static java.util.Objects.nonNull;
 
 @Entity
 @Table(name = "tb_user")
@@ -30,6 +35,16 @@ public class UserModel implements UserDetails, Serializable {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<RoleModel> roles;
+
+    public UserModel() {
+    }
+
+    public UserModel(UserDTO userDTO) {
+        this.username = userDTO.username();
+        this.password = (new BCryptPasswordEncoder().encode(userDTO.password()));
+        this.roles = List.of(new RoleModel(userDTO.roleId()));
+
+    }
 
 
     @Override
@@ -65,5 +80,14 @@ public class UserModel implements UserDetails, Serializable {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public void atualizar(DadosAtualizacaoUserDTO dadosAtualizacao) {
+        if (nonNull(dadosAtualizacao.getUsername())) {
+            this.username = dadosAtualizacao.getUsername();
+        }
+        if (nonNull(dadosAtualizacao.getPassword())) {
+            this.password = new BCryptPasswordEncoder().encode(dadosAtualizacao.getPassword());
+        }
     }
 }

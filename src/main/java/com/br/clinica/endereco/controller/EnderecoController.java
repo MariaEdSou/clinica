@@ -36,7 +36,6 @@ public class EnderecoController {
     private ViaCepClient viaCepClient;
 
     @PostMapping
-    @Transactional
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void cadastrar(@RequestBody DadosEnderecoDTO dadosEndereco) {
@@ -51,7 +50,6 @@ public class EnderecoController {
     }
 
     @PutMapping
-    @Transactional
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void atualizar(@RequestBody DadosAtualizacaoEndereco dados) {
@@ -59,7 +57,6 @@ public class EnderecoController {
     }
 
     @DeleteMapping("/{id}")
-    @Transactional
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteById(@PathVariable Long id) {

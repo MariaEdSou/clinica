@@ -30,7 +30,7 @@ public class ConsultaService {
 
     private final Logger log = LoggerFactory.getLogger(ConsultaService.class);
 
-
+    @Transactional
     public void cadastrar(DadosCadastroConsultaDTO dadosConsulta) {
         repository.save(new Consulta(dadosConsulta));
         log.info("consulta cadastrada");
@@ -47,6 +47,7 @@ public class ConsultaService {
 
     }
 
+    @Transactional
     public void atualizar(DadosAtualizacaoConsulta dados) {
         var consulta = repository.getReferenceById(dados.id());
         consulta.atualizar(dados);

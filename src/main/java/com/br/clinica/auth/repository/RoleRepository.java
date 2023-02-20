@@ -1,4 +1,4 @@
-package com.br.clinica.auth.service;
+package com.br.clinica.auth.repository;
 
 import com.br.clinica.auth.model.RoleModel;
 import org.springframework.data.jpa.repository.JpaRepository;

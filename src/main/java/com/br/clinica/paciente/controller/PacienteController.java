@@ -32,7 +32,6 @@ public class PacienteController {
     //    @ResponseStatus(HttpStatus.CREATED)faz retornar status 201 - algo foi criado
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @Transactional
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void cadastrar(@RequestBody @Valid DadosCadastroPacienteDTO dados) {
         pacienteService.cadastrar(dados);
@@ -46,7 +45,6 @@ public class PacienteController {
     }
 
     @PutMapping("/{cpf}")
-    @Transactional
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void atualizar(@PathVariable String cpf, @RequestBody DadosAtualizacaoPaciente dados) {
@@ -54,7 +52,6 @@ public class PacienteController {
     }
 
     @DeleteMapping("/{id}")
-    @Transactional
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void excluirPorCpf(@PathVariable String id) {

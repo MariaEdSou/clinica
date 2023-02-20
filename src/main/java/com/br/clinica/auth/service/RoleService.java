@@ -1,8 +1,9 @@
 package com.br.clinica.auth.service;
 
-import com.br.clinica.auth.RoleDTO;
+import com.br.clinica.auth.dto.RoleDTO;
 import com.br.clinica.auth.controller.RoleController;
 import com.br.clinica.auth.model.RoleModel;
+import com.br.clinica.auth.repository.RoleRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,22 +1,59 @@
 package com.br.clinica.auth.service;
 
-import com.br.clinica.auth.repository.UserRepository;
+import com.br.clinica.auth.controller.*;
+import com.br.clinica.auth.dto.DadosAtualizacaoUserDTO;
+import com.br.clinica.auth.dto.UserDTO;
+import com.br.clinica.auth.dto.UserResponseDTO;
+import com.br.clinica.auth.model.UserModel;
+import com.br.clinica.auth.repository.UserRepositoryy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
+
+import static java.util.function.Predicate.not;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
-    UserRepository userRepository;
+    private UserRepositoryy userRepositoryy;
+    private final static Logger log = LoggerFactory.getLogger(UserController.class);
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username)
+        return userRepositoryy.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
     }
 
+    @Transactional
+    public void save(UserDTO userDTO) {
+        userRepositoryy.save(new UserModel(userDTO));
+        log.info("registered user");
+    }
+
+    public Optional<List<UserResponseDTO>> listar(Pageable paginacao) {
+        List<UserResponseDTO> userResponseDTOS = userRepositoryy.findAll(paginacao)
+                .map(UserResponseDTO::new)
+                .toList();
+
+        return Optional.of(userResponseDTOS)
+                .filter(not(List::isEmpty));
+    }
+
+    @Transactional
+    public void atualizar(String id, DadosAtualizacaoUserDTO dadosAtualizacao) {
+        UserModel user = userRepositoryy.getReferenceById(id);
+        user.atualizar(dadosAtualizacao);
+        userRepositoryy.save(user);
+
+    }
 }
 

@@ -1,12 +1,10 @@
 package com.br.clinica.auth.controller;
 
-import com.br.clinica.auth.RoleDTO;
-import com.br.clinica.auth.service.RoleRepository;
+import com.br.clinica.auth.dto.RoleDTO;
 import com.br.clinica.auth.service.RoleService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
@@ -24,12 +22,11 @@ public class RoleController {
 
     private final Logger log = LoggerFactory.getLogger(RoleController.class);
     private final RoleService roleService;
-    @Autowired
-    private final RoleRepository repository;
 
-    public RoleController(RoleRepository repository,RoleService roleService) {
+
+    public RoleController(RoleService roleService) {
         this.roleService = roleService;
-        this.repository = repository;
+
 
     }
 

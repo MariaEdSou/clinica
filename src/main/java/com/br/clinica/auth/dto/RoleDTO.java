@@ -1,4 +1,4 @@
-package com.br.clinica.auth;
+package com.br.clinica.auth.dto;
 
 import com.br.clinica.auth.enumeration.RoleName;
 import com.br.clinica.auth.model.RoleModel;

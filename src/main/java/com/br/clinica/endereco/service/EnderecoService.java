@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -35,7 +36,7 @@ public class EnderecoService {
     public void cadastrar(String cpf, DadosEnderecoDTO dadosEndereco) {
 
     }
-
+    @Transactional
     public void cadastrar(DadosEnderecoDTO dadosEndereco) {
         ViaCepDTO viaCepDTO = viaCepClient.getEndereco(String.valueOf(dadosEndereco.cep())).getBody();
         repository.save(new Endereco(dadosEndereco, viaCepDTO));
@@ -51,14 +52,14 @@ public class EnderecoService {
         return Optional.of(enderecoResponseDTOS)
                 .filter(not(List::isEmpty));
     }
-
+    @Transactional
     public void atualizar(DadosAtualizacaoEndereco dados) {
         var endereco = repository.getReferenceById(dados.id());
         endereco.atualizarInf(dados);
         log.info("Dado atualizado");
     }
 
-
+    @Transactional
     public void deleteById(Long id) {
         repository.deleteById(id);
         log.info("endereco deletado");

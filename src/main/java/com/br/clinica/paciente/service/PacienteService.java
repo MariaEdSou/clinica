@@ -1,5 +1,6 @@
 package com.br.clinica.paciente.service;
 
+import com.br.clinica.auth.controller.UserController;
 import com.br.clinica.paciente.Paciente;
 import com.br.clinica.paciente.controller.PacienteController;
 import com.br.clinica.paciente.dto.DadosAtualizacaoPaciente;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -30,10 +32,9 @@ public class PacienteService {
 
     @Autowired
     private EnderecoService enderecoService;
+    private final static Logger log = LoggerFactory.getLogger(PacienteController.class);
 
-    private final Logger log = LoggerFactory.getLogger(PacienteController.class);
-
-
+    @Transactional
     public void cadastrar(DadosCadastroPacienteDTO dados) {
         repository.save(new Paciente(dados));
         enderecoService.cadastrar(dados.endereco());
@@ -42,21 +43,22 @@ public class PacienteService {
     public Optional<List<PacienteResponseDTO>> listar(Pageable paginacao) {
         List<PacienteResponseDTO> pacienteResponseDTOS = repository.findAll(paginacao)
                 .map(PacienteResponseDTO::new)
-
                 .toList();
 
         return Optional.of(pacienteResponseDTOS)
                 .filter(not(List::isEmpty));
     }
 
+    @Transactional
     public void atualizar(String cpf, DadosAtualizacaoPaciente dados) {
         var paciente = repository.getReferenceById(cpf);
         paciente.atualizar(dados);
+
         enderecoService.atualizar(dados.dadosAtualizacaoEndereco());
         log.info("dado atualizado");
-
     }
 
+    @Transactional
     public void excluirPorCpf(String id) {
         repository.deleteByCpf(id);
         log.info("paciente deletado");

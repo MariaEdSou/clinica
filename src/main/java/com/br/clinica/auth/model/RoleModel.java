@@ -1,6 +1,6 @@
 package com.br.clinica.auth.model;
 
-import com.br.clinica.auth.RoleDTO;
+import com.br.clinica.auth.dto.RoleDTO;
 import com.br.clinica.auth.enumeration.RoleName;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -29,6 +29,10 @@ public class RoleModel implements GrantedAuthority, Serializable {
 
     public RoleModel(RoleDTO roleNameDTO) {
         this.roleName = roleNameDTO.roleName();
+
+    }
+    public RoleModel(String roleId) {
+        this.roleId = roleId;
 
     }
 

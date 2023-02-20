@@ -36,7 +36,7 @@ public class ConsultaController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN' , 'ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
     public ResponseEntity<List<ConsultaResponseDTO>> listar(@PageableDefault(sort = {"data"}) Pageable paginacao) {
         Optional<List<ConsultaResponseDTO>> consultaResponseDTOS = service.listar(paginacao);
 
