@@ -15,6 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -48,16 +49,17 @@ public class ConsultaService {
     }
 
     @Transactional
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(DadosAtualizacaoConsulta dados) {
         var consulta = repository.getReferenceById(dados.id());
+        if (consulta == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "consulta nao encontrada");
+        }
         consulta.atualizar(dados);
         log.info("update data");
 
     }
 
     @Transactional
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteById(Long id) {
         repository.findById(id).ifPresent(e -> repository.delete(e));
         log.info("query deleted");

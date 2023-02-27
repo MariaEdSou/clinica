@@ -33,7 +33,6 @@ public class EnderecoService {
     private ViaCepClient viaCepClient;
 
     @Transactional
-    @ResponseStatus(HttpStatus.CREATED)
     public void save(DadosEnderecoDTO dadosEndereco) {
         ViaCepDTO viaCepDTO = viaCepClient.getEndereco(String.valueOf(dadosEndereco.cep())).getBody();
         repository.save(new Endereco(dadosEndereco, viaCepDTO));
@@ -51,7 +50,6 @@ public class EnderecoService {
     }
 
     @Transactional
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(DadosAtualizacaoEndereco dados) {
         var endereco = repository.getReferenceById(dados.id());
         endereco.atualizarInf(dados);

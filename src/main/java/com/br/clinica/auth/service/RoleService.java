@@ -25,7 +25,6 @@ public class RoleService {
     private final Logger log = LoggerFactory.getLogger(RoleController.class);
 
     @Transactional
-    @ResponseStatus(HttpStatus.CREATED)
     public void save(RoleDTO roleName) {
         repository.save(new RoleModel(roleName));
         log.info("registered role");

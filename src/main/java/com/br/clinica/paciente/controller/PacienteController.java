@@ -5,6 +5,9 @@ import com.br.clinica.paciente.dto.DadosAtualizacaoPaciente;
 import com.br.clinica.paciente.dto.DadosCadastroPacienteDTO;
 import com.br.clinica.paciente.dto.PacienteResponseDTO;
 import com.br.clinica.paciente.service.PacienteService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -25,7 +28,14 @@ public class PacienteController {
     @Autowired
     private PacienteService pacienteService;
 
-    //    @ResponseStatus(HttpStatus.CREATED)faz retornar status 201 - algo foi criado
+    @Operation(summary = "cadastro de pacientes")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201"),
+            @ApiResponse(responseCode = "400"),
+            @ApiResponse(responseCode = "403"),
+            @ApiResponse(responseCode = "401"),
+            @ApiResponse(responseCode = "500"),
+    })
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -33,6 +43,14 @@ public class PacienteController {
         pacienteService.save(dados);
     }
 
+    @Operation(summary = "listagem de pacientes")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200"),
+            @ApiResponse(responseCode = "403"),
+            @ApiResponse(responseCode = "404"),
+            @ApiResponse(responseCode = "401"),
+            @ApiResponse(responseCode = "500"),
+    })
     @PreAuthorize("hasAnyRole('ROLE_ADMIN' , 'ROLE_USER')")
     @GetMapping
     public ResponseEntity<List<PacienteResponseDTO>> list(@PageableDefault(sort = {"nome"}) Pageable paginacao) {
@@ -40,16 +58,32 @@ public class PacienteController {
         return ResponseEntity.of(pacienteResponseDTOS);
     }
 
+    @Operation(summary = "atualizacao de consultas de pacientes")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204"),
+            @ApiResponse(responseCode = "403"),
+            @ApiResponse(responseCode = "401"),
+            @ApiResponse(responseCode = "500"),
+    })
     @PutMapping("/{cpf}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@PathVariable String cpf, @RequestBody DadosAtualizacaoPaciente dados) {
         pacienteService.update(cpf, dados);
     }
 
+    @Operation(summary = "exclusao de consultas de pacientes")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204"),
+            @ApiResponse(responseCode = "403"),
+            @ApiResponse(responseCode = "401"),
+            @ApiResponse(responseCode = "500"),
+    })
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteByCpf(@PathVariable String id) {
-        pacienteService.excluirPorCpf(id);
+        pacienteService.deleteByCpf(id);
     }
 
 }

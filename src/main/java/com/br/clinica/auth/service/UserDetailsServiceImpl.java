@@ -36,7 +36,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     @Transactional
-    @ResponseStatus(HttpStatus.CREATED)
     public void save(UserDTO userDTO) {
         userRepositoryy.save(new UserModel(userDTO));
         log.info("registered user");
@@ -52,7 +51,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     @Transactional
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(String id, DadosAtualizacaoUserDTO dadosAtualizacao) {
         UserModel user = userRepositoryy.getReferenceById(id);
         user.atualizar(dadosAtualizacao);

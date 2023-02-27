@@ -23,9 +23,12 @@ import java.util.UUID;
 public class Paciente {
 
     @Id
+    @Column(unique=true)
     private String cpf;
     private String nome;
+    @Column(unique=true)
     private String email;
+    @Column(unique=true)
     private String telefone;
     @OneToMany(mappedBy = "paciente" , fetch = FetchType.EAGER)
     private List<Consulta> consulta;
@@ -57,10 +60,5 @@ public class Paciente {
         if (dados.telefone() != null) {
             this.telefone = dados.telefone();
         }
-    }
-
-    @Repository
-    public static interface UserRepository extends JpaRepository<UserRepository, UUID> {
-
     }
 }
