@@ -33,7 +33,7 @@ public class CustomizedResponseEntityExeptionHandler {
     @ExceptionHandler(ResponseStatusException.class)
     public ResponseEntity<ResponseErrorDTO> ResponseStatusException(ResponseStatusException ex) {
         ResponseErrorDTO responseErrorDTO = new ResponseErrorDTO(ex.getStatusCode().value(), ex.getMessage());
-        return ResponseEntity.status(ex.getStatusCode()).body(responseErrorDTO); 
+        return ResponseEntity.status(ex.getStatusCode()).body(responseErrorDTO);
     }
 
     @ResponseStatus(BAD_REQUEST)
@@ -53,3 +53,4 @@ public class CustomizedResponseEntityExeptionHandler {
                         }).toList());
     }
 }
+

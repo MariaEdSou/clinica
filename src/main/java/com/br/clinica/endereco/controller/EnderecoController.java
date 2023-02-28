@@ -67,10 +67,10 @@ public class EnderecoController {
             @ApiResponse(responseCode = "401"),
             @ApiResponse(responseCode = "500"),
     })
-    @PutMapping
+    @PutMapping()
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public void update(@RequestBody DadosAtualizacaoEndereco dados) {
+    public void update( @RequestBody DadosAtualizacaoEndereco dados) {
         enderecoService.update(dados);
     }
 

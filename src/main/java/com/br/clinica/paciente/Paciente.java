@@ -7,11 +7,8 @@ import com.br.clinica.paciente.dto.DadosCadastroPacienteDTO;
 import jakarta.persistence.*;
 import jakarta.persistence.OneToMany;
 import lombok.*;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.UUID;
 
 @Table(name = "pacientes")
 @Entity
@@ -50,7 +47,7 @@ public class Paciente {
 
     }
 
-    public void atualizar(DadosAtualizacaoPaciente dados) {
+    public void update(DadosAtualizacaoPaciente dados) {
         if (dados.nome() != null) {
             this.nome = dados.nome();
         }

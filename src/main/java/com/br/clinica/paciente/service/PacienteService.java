@@ -1,6 +1,5 @@
 package com.br.clinica.paciente.service;
 
-import com.br.clinica.consulta.dto.DadosAtualizacaoConsulta;
 import com.br.clinica.paciente.Paciente;
 import com.br.clinica.paciente.controller.PacienteController;
 import com.br.clinica.paciente.dto.DadosAtualizacaoPaciente;
@@ -12,8 +11,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -46,8 +47,8 @@ public class PacienteService {
 
     @Transactional
     public void update(String cpf, DadosAtualizacaoPaciente dados) {
-        var paciente = repository.getReferenceById(cpf);
-        paciente.atualizar(dados);
+        var paciente = repository.findById(cpf).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"PACIENTE NAO ENCONTRADO"));
+        paciente.update(dados);
         enderecoService.update(dados.dadosAtualizacaoEndereco());
         log.info("update data");
 

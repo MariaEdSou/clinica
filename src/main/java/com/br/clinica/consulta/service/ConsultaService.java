@@ -1,6 +1,5 @@
 package com.br.clinica.consulta.service;
 
-import com.br.clinica.client.ViaCepClient;
 import com.br.clinica.consulta.Consulta;
 import com.br.clinica.consulta.dto.ConsultaResponseDTO;
 import com.br.clinica.consulta.dto.DadosAtualizacaoConsulta;
@@ -14,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -50,11 +48,8 @@ public class ConsultaService {
 
     @Transactional
     public void update(DadosAtualizacaoConsulta dados) {
-        var consulta = repository.getReferenceById(dados.id());
-        if (consulta == null){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "consulta nao encontrada");
-        }
-        consulta.atualizar(dados);
+        var consulta = repository.findById(dados.id()).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"CONSULTA NAO ENCONTRADA"));
+        consulta.update(dados);
         log.info("update data");
 
     }

@@ -38,7 +38,7 @@ public class Consulta {
         this.especialidade = dadosConsulta.especialidade();
     }
 
-    public void atualizar(DadosAtualizacaoConsulta dados) {
+    public void update(DadosAtualizacaoConsulta dados) {
         if (dados.data() != null) {
             this.data = dados.data();
         }
