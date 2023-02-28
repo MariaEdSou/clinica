@@ -56,7 +56,7 @@ public class PacienteService {
 
     @Transactional
     public void deleteByCpf(String id) {
-        repository.deleteByCpf(id);
+        repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "PACIENTE ID NAO ENCONTADO"));;
         log.info("deleted patient");
     }
 }
