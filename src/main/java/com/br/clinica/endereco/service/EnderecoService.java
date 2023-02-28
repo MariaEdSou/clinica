@@ -52,14 +52,14 @@ public class EnderecoService {
 
     @Transactional
     public void update(DadosAtualizacaoEndereco dados) {
-        var endereco = repository.findById(dados.id()).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"ENDERECO NAO ENCONTRADO"));
+        var endereco = repository.findById(dados.id()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ENDERECO NAO ENCONTRADO"));
         endereco.atualizarInf(dados);
         log.info("update data");
     }
 
     @Transactional
     public void deleteById(Long id) {
-        repository.deleteById(id);
+        repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ENDERECO ID NAO ENCONTRADO"));
         log.info("delete address");
     }
 
