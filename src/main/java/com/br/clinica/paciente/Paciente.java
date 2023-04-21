@@ -29,7 +29,7 @@ public class Paciente {
     private String telefone;
     @OneToMany(mappedBy = "paciente" , fetch = FetchType.EAGER)
     private List<Consulta> consulta;
-    @OneToOne(mappedBy = "paciente", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "paciente", fetch = FetchType.EAGER)
     private Endereco endereco;
 
 

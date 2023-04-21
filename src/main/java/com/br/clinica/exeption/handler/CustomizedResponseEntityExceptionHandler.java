@@ -15,9 +15,9 @@ import java.util.List;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
-@RestController
+
 @RestControllerAdvice
-public class CustomizedResponseEntityExeptionHandler {
+public class CustomizedResponseEntityExceptionHandler {
 
     @Autowired
     private MessageSource messageSource;
@@ -25,18 +25,17 @@ public class CustomizedResponseEntityExeptionHandler {
     private final static String PREFIX_MESSAGE = "O campo %s %s";
 
     @ExceptionHandler(Exception.class)
-    public final ResponseEntity<ResponseErrorDTO> handleAllExceptions(Exception ex) {
+    public final ResponseEntity<ResponseErrorDTO> handleAllExceptions() {
         ResponseErrorDTO responseErrorDTO = new ResponseErrorDTO(500, "Algo deu errado, tente novamente mais tarde");
         return new ResponseEntity<>(responseErrorDTO, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(ResponseStatusException.class)
-    public ResponseEntity<ResponseErrorDTO> ResponseStatusException(ResponseStatusException ex) {
+    public ResponseEntity<ResponseErrorDTO> handlerResponseStatusException(ResponseStatusException ex) {
         ResponseErrorDTO responseErrorDTO = new ResponseErrorDTO(ex.getStatusCode().value(), ex.getMessage());
         return ResponseEntity.status(ex.getStatusCode()).body(responseErrorDTO);
     }
 
-    @ResponseStatus(BAD_REQUEST)
     @ExceptionHandler(BindException.class)
     public ResponseEntity<List<ResponseErrorValidationDTO>> handlingException(BindException exception) {
         final List<FieldError> fieldsError = exception.getBindingResult().getFieldErrors();
@@ -52,5 +51,6 @@ public class CustomizedResponseEntityExeptionHandler {
                                     .build();
                         }).toList());
     }
+
 }
 

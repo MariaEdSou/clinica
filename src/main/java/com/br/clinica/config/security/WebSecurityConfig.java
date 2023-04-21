@@ -15,7 +15,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig {
-
     @Bean
     public SecurityFilterChain filterChain(final HttpSecurity http) throws Exception {
         return http.httpBasic()

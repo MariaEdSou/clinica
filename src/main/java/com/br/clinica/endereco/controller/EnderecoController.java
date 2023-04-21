@@ -30,21 +30,6 @@ public class EnderecoController {
     @Autowired
     private EnderecoService enderecoService;
 
-    @Operation(summary = "cadastro de endereco de pacientes")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201"),
-            @ApiResponse(responseCode = "400"),
-            @ApiResponse(responseCode = "403"),
-            @ApiResponse(responseCode = "401"),
-            @ApiResponse(responseCode = "500"),
-    })
-    @PostMapping
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void save(@RequestBody @Valid DadosEnderecoDTO dadosEndereco) {
-        enderecoService.save(dadosEndereco);
-    }
-
     @Operation(summary = "listagem de endereco de pacientes")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200"),

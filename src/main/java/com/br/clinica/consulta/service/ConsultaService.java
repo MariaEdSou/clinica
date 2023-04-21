@@ -2,7 +2,7 @@ package com.br.clinica.consulta.service;
 
 import com.br.clinica.consulta.Consulta;
 import com.br.clinica.consulta.dto.ConsultaResponseDTO;
-import com.br.clinica.consulta.dto.DadosAtualizacaoConsulta;
+import com.br.clinica.consulta.dto.DataUpdateConsultation;
 import com.br.clinica.consulta.dto.DadosCadastroConsultaDTO;
 import com.br.clinica.consulta.repository.ConsultaRepository;
 import org.slf4j.Logger;
@@ -32,7 +32,7 @@ public class ConsultaService {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void save(DadosCadastroConsultaDTO dadosConsulta) {
         repository.save(new Consulta(dadosConsulta));
-        log.info("query registered");
+        log.info("query registered, {}", dadosConsulta);
     }
 
     public Optional<List<ConsultaResponseDTO>> list(Pageable paginacao) {
@@ -43,20 +43,24 @@ public class ConsultaService {
 
         return Optional.of(consultaResponseDTOS)
                 .filter(not(List::isEmpty));
-
     }
 
     @Transactional
-    public void update(DadosAtualizacaoConsulta dados) {
-        var consulta = repository.findById(dados.id()).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"CONSULTA NAO ENCONTRADA"));
-        consulta.update(dados);
+    public void update(DataUpdateConsultation data) {
+        Consulta consulta = repository.findById(data.id())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "CONSULTATION NOT FOUND"));
+        consulta.update(data);
         log.info("update data");
 
     }
 
     @Transactional
     public void deleteById(Long id) {
-        repository.findById(id).ifPresent(e -> repository.delete(e));
-        log.info("query deleted");
+        repository.findById(id)
+                .ifPresentOrElse(c -> repository.delete(c),
+                        () -> {
+                            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "CONSULTATION ID NOT FOUND");
+                        });
+        log.info("consultation deleted");
     }
 }

@@ -47,7 +47,8 @@ public class PacienteService {
 
     @Transactional
     public void update(String cpf, DadosAtualizacaoPaciente dados) {
-        var paciente = repository.findById(cpf).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"PACIENTE NAO ENCONTRADO"));
+        var paciente = repository.findById(cpf)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "PACIENTE NAO ENCONTRADO"));
         paciente.update(dados);
         enderecoService.update(dados.dadosAtualizacaoEndereco());
         log.info("update data");
@@ -56,7 +57,16 @@ public class PacienteService {
 
     @Transactional
     public void deleteByCpf(String id) {
-        repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "PACIENTE ID NAO ENCONTADO"));;
+        repository.findById(id)
+                .ifPresentOrElse(c -> {
+                            enderecoService.deleteById(c.getEndereco().getId());
+                            repository.delete(c);
+                        },
+                        () -> {
+                            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "PACIENTE ID NAO ENCONTADO");
+                        });
         log.info("deleted patient");
     }
+
+    //spring.datasource.url=jdbc:mysql://192.168.1.8/estudo
 }

@@ -59,7 +59,12 @@ public class EnderecoService {
 
     @Transactional
     public void deleteById(Long id) {
-        repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ENDERECO ID NAO ENCONTRADO"));
+        repository.findById(id)
+                .ifPresentOrElse(c -> repository.delete(c),
+                        () -> {
+                            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ENDERECO ID NAO ENCONTRADO");
+                        });
+
         log.info("delete address");
     }
 

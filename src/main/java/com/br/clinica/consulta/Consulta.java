@@ -1,6 +1,6 @@
 package com.br.clinica.consulta;
 
-import com.br.clinica.consulta.dto.DadosAtualizacaoConsulta;
+import com.br.clinica.consulta.dto.DataUpdateConsultation;
 import com.br.clinica.consulta.dto.DadosCadastroConsultaDTO;
 import com.br.clinica.consulta.dto.EspecialidadeConsulta;
 import com.br.clinica.paciente.Paciente;
@@ -38,7 +38,7 @@ public class Consulta {
         this.especialidade = dadosConsulta.especialidade();
     }
 
-    public void update(DadosAtualizacaoConsulta dados) {
+    public void update(DataUpdateConsultation dados) {
         if (dados.data() != null) {
             this.data = dados.data();
         }
@@ -53,5 +53,7 @@ public class Consulta {
         }
 
     }
+
+    
 
 }

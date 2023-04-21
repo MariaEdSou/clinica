@@ -1,6 +1,6 @@
 package com.br.clinica.consulta.controller;
 
-import com.br.clinica.consulta.dto.DadosAtualizacaoConsulta;
+import com.br.clinica.consulta.dto.DataUpdateConsultation;
 import com.br.clinica.consulta.dto.ConsultaResponseDTO;
 import com.br.clinica.consulta.dto.DadosCadastroConsultaDTO;
 import com.br.clinica.consulta.service.ConsultaService;
@@ -34,6 +34,7 @@ public class ConsultaController {
             @ApiResponse(responseCode = "500"),
     })
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
     public void save(@RequestBody @Valid DadosCadastroConsultaDTO dadosConsulta) {
         service.save(dadosConsulta);
@@ -66,7 +67,7 @@ public class ConsultaController {
     @PutMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@RequestBody DadosAtualizacaoConsulta dados) {
+    public void update(@RequestBody DataUpdateConsultation dados) {
         service.update(dados);
     }
 

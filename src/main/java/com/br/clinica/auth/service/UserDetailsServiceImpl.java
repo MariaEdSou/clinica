@@ -10,14 +10,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -55,7 +52,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public void update(String id, DadosAtualizacaoUserDTO dadosAtualizacao) {
         UserModel user = userRepositoryy.getReferenceById(id);
 
-        user.atualizar(dadosAtualizacao);
+        user.update(dadosAtualizacao);
         userRepositoryy.save(user);
         log.info("update data");
     }

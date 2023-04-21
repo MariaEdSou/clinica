@@ -7,7 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
 @EnableFeignClients
-public class ClinicaApplication {
+public class  ClinicaApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(ClinicaApplication.class, args);

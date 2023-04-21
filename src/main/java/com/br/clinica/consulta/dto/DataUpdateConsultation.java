@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
-public record DadosAtualizacaoConsulta(
+public record DataUpdateConsultation(
         @NotNull
         Long id,
         LocalDate data,

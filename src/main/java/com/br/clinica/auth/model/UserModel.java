@@ -4,6 +4,7 @@ import com.br.clinica.auth.dto.DadosAtualizacaoUserDTO;
 import com.br.clinica.auth.dto.UserDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,6 +21,7 @@ import static java.util.Objects.nonNull;
 @Table(name = "tb_user")
 @Getter
 @Setter
+@NoArgsConstructor
 public class UserModel implements UserDetails, Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -35,9 +37,6 @@ public class UserModel implements UserDetails, Serializable {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<RoleModel> roles;
-
-    public UserModel() {
-    }
 
     public UserModel(UserDTO userDTO) {
         this.username = userDTO.username();
@@ -61,27 +60,31 @@ public class UserModel implements UserDetails, Serializable {
         return this.username;
     }
 
+    // se a conta nao expirou
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    //se a conta nao esta bloqueada
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    //se a credencial nao expirou
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
+    // se esta ativo
     @Override
     public boolean isEnabled() {
         return true;
     }
 
-    public void atualizar(DadosAtualizacaoUserDTO dadosAtualizacao) {
+    public void update(DadosAtualizacaoUserDTO dadosAtualizacao) {
         if (nonNull(dadosAtualizacao.getUsername())) {
             this.username = dadosAtualizacao.getUsername();
         }

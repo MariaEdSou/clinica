@@ -7,7 +7,7 @@ import lombok.Setter;
 
 import java.util.List;
 
-//.stream().map converte
+//.stream().map converte, pq convert
 
 @Getter
 @Setter

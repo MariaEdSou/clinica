@@ -3,7 +3,9 @@ package com.br.clinica.auth.model;
 import com.br.clinica.auth.dto.RoleDTO;
 import com.br.clinica.auth.enumeration.RoleName;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,6 +16,8 @@ import java.io.Serializable;
 @Table(name = "tb_role")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class RoleModel implements GrantedAuthority, Serializable {
     private static final long serialVersionUID = 1l;
 
@@ -33,9 +37,6 @@ public class RoleModel implements GrantedAuthority, Serializable {
 
     public RoleModel(String roleId) {
         this.roleId = roleId;
-    }
-
-    public RoleModel() {
     }
 
     @Override
